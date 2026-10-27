@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101426">
+<title>ذهن‌کاو | Mind Hunter</title>
+<style>
+:root{color-scheme:dark;--bg:#101426;--panel:#1a2038;--panel2:#222a46;--ink:#f4f5ff;--muted:#a9b1d1;--cyan:#58e1d3;--purple:#a78bfa;--gold:#ffd166;--red:#ff7188;--green:#68e6a6}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 85% 0%,#252552 0%,var(--bg) 48%);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;min-height:100vh}
+button,input{font:inherit}
+button{touch-action:manipulation;cursor:pointer}
+.app{width:min(100%,760px);margin:auto;padding:18px 14px 36px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:5px 0 18px}
+.brand{display:flex;gap:11px;align-items:center}
+.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(140deg,var(--cyan),var(--purple));display:grid;place-items:center;color:#11152a;font-size:25px;font-weight:900;box-shadow:0 8px 28px #58e1d326}
+h1{font-size:22px;margin:0;letter-spacing:-.5px}
+.sub{font-size:11px;color:var(--muted);margin-top:4px}
+.pill{border:1px solid #ffffff1a;background:#ffffff08;padding:9px 11px;border-radius:13px;font-size:12px;color:var(--gold);white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.stat{background:#ffffff08;border:1px solid #ffffff12;border-radius:15px;padding:12px 10px}
+.stat small{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
+.stat strong{font-size:20px}
+.progress-wrap{height:5px;background:#ffffff14;border-radius:9px;overflow:hidden;margin:0 0 18px}
+.progress{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));width:0%;transition:width .3s}
+.card{background:linear-gradient(145deg,#1c2340ed,#171c32ed);border:1px solid #ffffff15;border-radius:22px;padding:19px;box-shadow:0 18px 45px #0002}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.category{font-size:12px;color:var(--cyan);background:#58e1d315;border:1px solid #58e1d32b;padding:7px 10px;border-radius:10px}
+.level{font-size:12px;color:var(--muted)}
+h2{font-size:19px;line-height:1.7;margin:0 0 8px}
+.desc{font-size:13px;line-height:1.9;color:var(--muted);margin:0 0 17px}
+.puzzle{border:1px solid #ffffff14;background:#0e1327a6;border-radius:18px;padding:18px 14px;margin:13px 0 17px;text-align:center}
+.sequence{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;direction:ltr}
+.tile{min-width:43px;height:47px;padding:0 10px;border-radius:12px;display:grid;place-items:center;background:#252d4c;border:1px solid #ffffff14;font-size:21px;font-weight:800;color:#fff}
+.tile.missing{border:1px dashed var(--cyan);color:var(--cyan);background:#58e1d310}
+.question{font-size:14px;line-height:1.9;margin-top:13px;color:#e6e9ff}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.option{min-height:53px;border:1px solid #ffffff1c;border-radius:14px;background:#252c48;color:var(--ink);font-weight:700;font-size:16px;transition:.15s}
+.option:active{transform:scale(.98)}
+.option:focus-visible,.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.option.correct{background:#68e6a620;border-color:var(--green);color:var(--green)}
+.option.wrong{background:#ff718820;border-color:var(--red);color:var(--red)}
+.option:disabled{cursor:default}
+.feedback{display:none;padding:12px 13px;margin-top:13px;border-radius:13px;font-size:13px;line-height:1.9}
+.feedback.show{display:block}
+.feedback.good{background:#68e6a615;border:1px solid #68e6a64a;color:#baf8d8}
+.feedback.bad{background:#ff718815;border:1px solid #ff71884a;color:#ffc1cb}
+.actions{display:flex;gap:9px;margin-top:15px}
+.btn{border:0;border-radius:14px;padding:13px 15px;font-weight:800;min-height:47px}
+.primary{background:linear-gradient(100deg,var(--cyan),#8bd9ff);color:#101426;flex:1}
+.secondary{background:#ffffff0b;color:var(--ink);border:1px solid #ffffff1b}
+.btn:disabled{opacity:.4;cursor:default}
+.bottomnote{color:var(--muted);font-size:11px;line-height:1.9;text-align:center;margin:16px 8px}
+.overlay{position:fixed;inset:0;background:#080b16eF;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}
+.overlay.show{display:flex}
+.modal{width:min(100%,420px);border-radius:23px;padding:24px;background:#1b223b;border:1px solid #ffffff1b;text-align:center}
+.modal .big{font-size:46px;margin:4px}
+.modal h2{margin:5px 0}
+.modal p{color:var(--muted);font-size:13px;line-height:2}
+.levelgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}
+.levelbtn{padding:12px 4px;background:#252c48;border:1px solid #ffffff14;border-radius:12px;color:var(--ink)}
+.levelbtn.done{border-color:#68e6a6;color:var(--green)}
+.levelbtn.current{border-color:var(--cyan);background:#58e1d318}
+@media(min-width:600px){.app{padding:26px 22px}.card{padding:25px}.tile{min-width:53px;height:55px;font-size:24px}.options{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.landing{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 50% 15%,#3b3674 0%,#171b35 42%,#0b1020 100%);text-align:center}
+.hero{width:min(100%,620px);padding:28px 22px;border:1px solid #ffffff20;border-radius:30px;background:linear-gradient(145deg,#ffffff12,#ffffff04);box-shadow:0 25px 80px #0005}
+.hero-art{height:210px;display:grid;place-items:center;position:relative;overflow:hidden;border-radius:24px;margin-bottom:22px;background:radial-gradient(circle at 50% 45%,#5a4b9d 0%,#25244f 45%,#10162c 78%)}
+.hero-art:before,.hero-art:after{content:"";position:absolute;border:1px solid #8ff8ed66;border-radius:50%;width:175px;height:175px;transform:rotate(35deg) scaleX(.55);box-shadow:0 0 35px #58e1d344,inset 0 0 30px #a78bfa22}
+.hero-art:after{width:130px;height:130px;transform:rotate(-35deg) scaleX(.65);border-color:#ffd16688}
+.brain{font-size:86px;filter:drop-shadow(0 0 24px #58e1d388);z-index:1}
+.spark{position:absolute;color:var(--gold);font-size:24px}.spark.s1{top:22px;left:18%}.spark.s2{right:17%;top:35px;color:var(--cyan)}.spark.s3{bottom:22px;right:25%;font-size:18px}
+.hero h1{font-size:clamp(32px,8vw,48px);margin:4px 0 8px}.hero p{color:var(--muted);line-height:2;margin:8px auto 20px;max-width:440px}.credit{font-size:12px;color:#c7c9e6;margin-top:18px;line-height:2}
+.app[hidden],.landing[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<section class="landing" id="landing"><div class="hero">
+<div class="hero-art" role="img" aria-label="تصویر هنری مغز و حلقه‌های نورانی"><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span><div class="brain">🧠</div></div>
+<div class="sub">MIND HUNTER · آزمایشگاه منطق</div><h1>ذهن‌کاو</h1>
+<p>آماده‌ای رمزها را بشکنی، الگوها را کشف کنی و قدرت ذهن خودت را به چالش بکشی؟</p>
+<button class="btn primary" id="startGame">شروع ماجراجویی ←</button>
+<div class="credit">طراحی و ساخت: سید امیر علی خیاط زاده</div></div></section>
+<div class="app" id="gameApp" hidden>
+<header>
+ <div class="brand"><div class="logo" aria-label="ذهن‌کاو">🧠</div><div><h1>ذهن‌کاو</h1><div class="sub">MIND HUNTER · آزمایشگاه منطق</div></div></div>
+ <button class="pill" id="levelsOpen">▦ مراحل</button>
+</header>
+<div class="stats">
+ <div class="stat"><small>امتیاز کل</small><strong id="score">۰</strong></div>
+ <div class="stat"><small>مرحله</small><strong id="levelStat">۱ / ۲۰</strong></div>
+ <div class="stat"><small>رکورد</small><strong id="best">۰</strong></div>
+</div>
+<div class="progress-wrap"><div class="progress" id="progress"></div></div>
+<main class="card">
+ <div class="topline"><span class="category" id="category">الگویابی</span><span class="level" id="levelLabel">مرحله ۱ · سطح سخت</span></div>
+ <h2 id="title">الگوی پنهان</h2>
+ <p class="desc" id="desc">قانونی را پیدا کن که اعداد را به هم وصل می‌کند.</p>
+ <div class="puzzle" id="puzzle"></div>
+ <div class="options" id="options"></div>
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <div class="actions">
+  <button class="btn secondary" id="hint">راهنمایی · ۱۰۰ امتیاز کمتر</button>
+  <button class="btn primary" id="next" disabled>مرحله بعد ←</button>
+ </div>
+</main>
+<div class="bottomnote">هر پاسخ درست امتیاز می‌دهد؛ راهنمایی امتیاز همان مرحله را کم می‌کند. پیشرفت روی همین مرورگر ذخیره می‌شود.</div>
+</div>
+<div class="overlay" id="levelOverlay"><div class="modal"><div class="big">🧩</div><h2>انتخاب مرحله</h2><p>مرحله‌های بازشده را انتخاب کن. هر پاسخ درست، تو را یک قدم جلوتر می‌برد.</p><div class="levelgrid" id="levelGrid"></div><button class="btn primary" id="closeLevels">بازگشت به بازی</button></div></div>
+<div class="overlay" id="endOverlay"><div class="modal"><div class="big">🏆</div><h2>ذهن‌کاو کامل شد!</h2><p id="endText">همهٔ معماها را حل کردی.</p><button class="btn primary" id="restart">شروع دوباره</button></div></div>
+<script>
+const fa=n=>String(n).replace(/[0-9]/g,d=>'۰۱۲۳۴۵۶۷۸۹'[+d]);
+const puzzles=[
+{cat:'الگویابی',title:'دنبالهٔ رمزدار',desc:'عدد بعدی را پیدا کن. به اختلاف‌های بین اعداد دقت کن.',seq:['۲','۶','۱۵','۳۱','۵۶','؟'],q:'عدد جایگزین علامت سؤال کدام است؟',opts:['۸۲','۹۱','۹۲','۸۷'],ans:2,ex:'اختلاف‌ها ۴، ۹، ۱۶ و ۲۵ هستند؛ یعنی مربع‌های ۲، ۳، ۴ و ۵. اختلاف بعدی ۳۶ است؛ پس ۵۶ + ۳۶ = ۹۲.',hint:'اختلاف‌های پیاپی را حساب کن؛ خود اختلاف‌ها هم الگو دارند.',pts:180},
+{cat:'استنتاج',title:'سه جعبه',desc:'فقط یکی از برچسب‌ها درست است و هر جعبه برچسبی دارد.',visual:['جعبه A: «طلا اینجاست»','جعبه B: «طلا در A نیست»','جعبه C: «طلا در B نیست»'],q:'طلا در کدام جعبه است؟',opts:['جعبه A','جعبه B','جعبه C','اطلاعات کافی نیست'],ans:1,ex:'اگر طلا در B باشد، گزارهٔ A نادرست، گزارهٔ B درست و گزارهٔ C نادرست می‌شود؛ دقیقاً یک برچسب درست است.',hint:'هر محل احتمالی را جداگانه امتحان کن و تعداد برچسب‌های درست را بشمار.',pts:220},
+{cat:'منطق عددی',title:'عملگر ناشناس',desc:'در این معما، علامت‌ها یک قانون ثابت دارند.',visual:['۲ ★ ۳ = ۱۳','۳ ★ ۴ = ۲۵','۴ ★ ۵ = ۴۱'],q:'پس ۵ ★ ۶ چند می‌شود؟',opts:['۵۵','۶۱','۶۵','۷۱'],ans:1,ex:'قانون a ★ b = a² + b² است: ۲²+۳²=۱۳، ۳²+۴²=۲۵ و ۴²+۵²=۴۱. بنابراین ۵²+۶²=۶۱.',hint:'به توان دوم دو عدد فکر کن و نتیجه‌ها را بررسی کن.',pts:220},
+{cat:'راست‌گویی و دروغ',title:'جزیرهٔ عجیب',desc:'آرمان و بهار هرکدام یا همیشه راست می‌گویند یا همیشه دروغ.',visual:['آرمان: «هر دوی ما دروغ‌گو هستیم.»','بهار: «آرمان دروغ‌گو است.»'],q:'کدام گزینه حتماً درست است؟',opts:['هر دو راست‌گو هستند','هر دو دروغ‌گو هستند','آرمان دروغ‌گو و بهار راست‌گوست','آرمان راست‌گو و بهار دروغ‌گوست'],ans:2,ex:'اگر آرمان راست‌گو بود، جمله‌اش می‌گفت خودش دروغ‌گوست؛ تناقض. پس آرمان دروغ‌گوست. جملهٔ بهار درست است، پس بهار راست‌گوست.',hint:'اول فرض کن جملهٔ آرمان درست است؛ آیا تناقض ایجاد می‌شود؟',pts:250},
+{cat:'رمزگشایی',title:'قفل چهاررقمی',desc:'رمز چهار رقم متفاوت دارد. از سرنخ‌ها استفاده کن.',visual:['۵۲۸۱ → دو رقم درست و در جای درست','۱۴۹۶ → دو رقم درست، هر دو در جای نادرست','۳۵۰۷ → یک رقم درست، در جای نادرست'],q:'کدام رمز با همهٔ سرنخ‌ها سازگار است؟',opts:['۵۹۲۴','۵۶۲۴','۸۹۲۴','۵۹۶۴'],ans:0,ex:'در گزینهٔ ۵۹۲۴، از سرنخ اول ۵ و ۲ در جای درست‌اند؛ در سرنخ دوم ۹ و ۴ حاضرند اما جایشان عوض شده؛ و از سرنخ سوم فقط ۵ حاضر است اما جای آن فرق دارد.',hint:'برای هر گزینه، تعداد رقم‌های مشترک و جای دقیق آن‌ها را بررسی کن.',pts:280},
+{cat:'ترتیب و زمان',title:'صف پنج‌نفره',desc:'پنج نفر در صف ایستاده‌اند: نیما، رها، سارا، امیر و کیان.',visual:['رها جلوتر از امیر است.','سارا بلافاصله پشت رهاست.','نیما آخر نیست و جلوتر از رهاست.','کیان جلوتر از نیماست.'],q:'کدام ترتیب از جلو به عقب ممکن است؟',opts:['کیان، نیما، رها، سارا، امیر','نیما، کیان، رها، سارا، امیر','کیان، رها، سارا، امیر، نیما','کیان، نیما، سارا، رها، امیر'],ans:0,ex:'ترتیب گزینهٔ اول همهٔ شرط‌ها را رعایت می‌کند: کیان جلوتر از نیماست، نیما جلوتر از رها، سارا بلافاصله پشت رها و رها جلوتر از امیر است.',hint:'دو نفر «رها، سارا» باید کنار هم و به همین ترتیب باشند.',pts:280},
+{cat:'الگویابی',title:'شبکهٔ عددی',desc:'در هر ردیف، عدد سوم از قانون یکسانی پیروی می‌کند.',visual:['۳   |  ۴   |  ۲۵','۵   |  ۲   |  ۲۹','۶   |  ۳   |  ؟'],q:'عدد گمشده چیست؟',opts:['۳۹','۴۲','۴۵','۴۸'],ans:2,ex:'عدد سوم برابر مجموع مربع دو عدد اول است: ۳²+۴²=۲۵ و ۵²+۲²=۲۹. پس ۶²+۳²=۴۵.',hint:'هر دو عدد اول را در خودش ضرب و سپس جمع کن.',pts:300},
+{cat:'استنتاج',title:'چه کسی کلید را برداشت؟',desc:'دقیقاً یکی از چهار نفر کلید را برداشته و دقیقاً دو جمله راست است.',visual:['آوا: «کار با من نبود.»','بهرام: «کار با کامران بود.»','کامران: «بهرام دروغ می‌گوید.»','داریوش: «من نبودم.»'],q:'چه کسی برداشت؟',opts:['آوا','بهرام','کامران','داریوش'],ans:3,ex:'اگر داریوش برداشته باشد: جملهٔ آوا درست، بهرام نادرست، کامران درست (چون بهرام دروغ می‌گوید)، و داریوش نادرست است. دقیقاً دو جمله درست می‌شود.',hint:'هر بار یکی را مقصر فرض کن و تعداد جمله‌های درست را بشمار.',pts:320},
+{cat:'منطق مجموعه‌ها',title:'سه نماد',desc:'●، ▲ و ■ هر کدام عددی متفاوت بین ۱ تا ۹ هستند.',visual:['● + ▲ = ১১','▲ + ■ = ۱۳','● + ■ = ۱۰'],q:'مقدار ▲ چند است؟',opts:['۵','۶','۷','۸'],ans:2,ex:'با جمع سه معادله و کم کردن رابطه‌ها به دست می‌آید: ۲▲ = ۱۱+۱۳−۱۰ = ۱۴؛ پس ▲ = ۷.',hint:'دو معادلهٔ اول را جمع کن و رابطهٔ سوم را از آن کم کن.',pts:350},
+{cat:'تفکر انتقادی',title:'استدلال نامعتبر',desc:'کدام نتیجه الزاماً از جمله‌های زیر پیروی نمی‌کند؟',visual:['همهٔ نقاشان خلاق‌اند.','بعضی دانش‌آموزان نقاش‌اند.'],q:'کدام گزینه الزاماً نتیجه نمی‌شود؟',opts:['بعضی دانش‌آموزان خلاق‌اند','همهٔ نقاشان دانش‌آموزند','دست‌کم یک نقاش خلاق است','ممکن است دانش‌آموزی خلاق باشد'],ans:1,ex:'از اینکه بعضی دانش‌آموزان نقاش‌اند و همهٔ نقاشان خلاق‌اند، نمی‌توان نتیجه گرفت همهٔ نقاشان دانش‌آموزند؛ این گزاره دربارهٔ همهٔ نقاشان اطلاعاتی نمی‌دهد.',hint:'تفاوت «بعضی» و «همه» را جدی بگیر.',pts:350},
+{cat:'ترکیب سرنخ‌ها',title:'کد سه‌نمادی',desc:'سه نماد متفاوت از میان A، B، C و D در یک ترتیب قرار گرفته‌اند.',visual:['ABC → دو نماد درست و هر دو در جای درست','BDA → دو نماد درست، هر دو در جای نادرست','DAC → دو نماد درست؛ یکی در جای درست و دیگری در جای نادرست'],q:'کدام کد با سرنخ‌ها سازگار است؟',opts:['CAD','CDB','ADC','DBC'],ans:3,ex:'در کد DBC، از ABC دو نماد B و C در جای درست‌اند؛ از BDA، دو نماد B و D حاضرند اما هر دو جابه‌جا هستند؛ از DAC، D در جای درست و C در جای نادرست است.',hint:'هر گزینه را نماد به نماد با هر سه سرنخ تطبیق بده.',pts:400},
+{cat:'معمای نهایی',title:'سه نگهبان',desc:'یک در امن است. نگهبان‌ها چنین می‌گویند و فقط یکی از جمله‌ها درست است.',visual:['نگهبان ۱: «در امن، در شمارهٔ ۲ است.»','نگهبان ۲: «در امن، در شمارهٔ ۳ است.»','نگهبان ۳: «در شمارهٔ ۲ امن نیست.»'],q:'کدام در امن است؟',opts:['در شمارهٔ ۱','در شمارهٔ ۲','در شمارهٔ ۳','قابل تعیین نیست'],ans:0,ex:'اگر در ۱ امن باشد، جملهٔ اول و دوم نادرست‌اند و جملهٔ سوم درست است؛ دقیقاً یک جمله درست می‌شود. اگر در ۲ باشد، جملهٔ اول و سوم درست می‌شوند؛ اگر در ۳ باشد، جملهٔ دوم و سوم درست می‌شوند.',hint:'هر در را جداگانه امن فرض کن و جمله‌های درست را بشمار.',pts:450}
+,{cat:'الگویابی',title:'دنبالهٔ پله‌ای',desc:'به افزایش هر مرحله توجه کن.',seq:['۳','۷','۱۲','۱۸','۲۵','؟'],q:'عدد بعدی چیست؟',opts:['۳۱','۳۲','۳۳','۳۴'],ans:2,ex:'اختلاف‌ها ۴، ۵، ۶ و ۷ هستند؛ اختلاف بعدی ۸ است، پس پاسخ ۳۳ است.',hint:'اختلاف‌ها هر بار یک واحد بیشتر می‌شوند.',pts:220}
+,{cat:'الگویابی',title:'ضرب‌های پنهان',desc:'قانون دنباله را پیدا کن.',seq:['۲','۶','۱۸','۵۴','؟'],q:'عدد بعدی کدام است؟',opts:['۱۰۸','۱۴۲','۱۶۲','۱۸۰'],ans:2,ex:'هر عدد در ۳ ضرب می‌شود؛ ۵۴×۳=۱۶۲.',hint:'نسبت هر عدد به عدد قبلی را بررسی کن.',pts:260}
+,{cat:'ترتیب و زمان',title:'روزهای هفته',desc:'اگر فردا پنجشنبه باشد...',q:'امروز چه روزی است؟',opts:['سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'],ans:1,ex:'اگر فردا پنجشنبه باشد، امروز چهارشنبه است.',hint:'از شرط فردا شروع کن.',pts:240}
+,{cat:'منطق عددی',title:'مربع گمشده',desc:'الگوی مربع‌ها را کامل کن.',seq:['۱','۴','۹','۱۶','۲۵','؟'],q:'عدد بعدی چیست؟',opts:['۳۰','۳۲','۳۶','۴۹'],ans:2,ex:'این‌ها مربع اعداد ۱ تا ۵ هستند؛ عدد بعدی ۶² یعنی ۳۶ است.',hint:'هر عدد حاصل ضرب یک عدد در خودش است.',pts:280}
+,{cat:'تفکر انتقادی',title:'نتیجه‌گیری',desc:'همهٔ گزاره‌ها را دقیق بخوان.',visual:['همهٔ گربه‌ها پستاندارند.','مینو یک گربه است.'],q:'کدام نتیجه حتماً درست است؟',opts:['مینو پرنده است','مینو پستاندار است','همهٔ پستانداران گربه‌اند','هیچ گربه‌ای پستاندار نیست'],ans:1,ex:'چون مینو گربه است و همهٔ گربه‌ها پستاندارند، مینو پستاندار است.',hint:'گزارهٔ دوم را در قانون اول جای‌گذاری کن.',pts:280}
+,{cat:'ترکیب سرنخ‌ها',title:'رنگ‌های رمز',desc:'سه مهره در سه جایگاه قرار دارند.',visual:['قرمز سمت راست آبی است.','سبز سمت چپ قرمز است.'],q:'ترتیب از چپ به راست کدام است؟',opts:['سبز، قرمز، آبی','آبی، سبز، قرمز','قرمز، آبی، سبز','سبز، آبی، قرمز'],ans:0,ex:'سبز باید سمت چپ قرمز و آبی سمت راست قرمز باشد؛ پس ترتیب سبز، قرمز، آبی است.',hint:'قرمز را بین دو رنگ دیگر قرار بده.',pts:300}
+,{cat:'منطق عددی',title:'عملگر تازه',desc:'قانون ثابت بین دو عدد را پیدا کن.',visual:['۱ ★ ۲ = ۵','۲ ★ ۳ = ۱۳','۳ ★ ۴ = ۲۵'],q:'۴ ★ ۵ چند می‌شود؟',opts:['۳۳','۳۹','۴۱','۴۵'],ans:2,ex:'قانون جمع مربع‌هاست: ۴²+۵²=۴۱.',hint:'مربع دو عدد را با هم جمع کن.',pts:320}
+,{cat:'معمای نهایی',title:'دو دروازه',desc:'فقط یکی از دو جمله درست است.',visual:['جملهٔ اول: دروازهٔ دوم امن است.','جملهٔ دوم: دروازهٔ اول امن است.'],q:'کدام دروازه امن است؟',opts:['اول','دوم','هر دو','قابل تعیین نیست'],ans:0,ex:'اگر دروازهٔ اول امن باشد، جملهٔ اول نادرست و جملهٔ دوم درست است؛ دقیقاً یکی درست است.',hint:'هر دروازه را جداگانه فرض کن.',pts:400}
+
+];
+let state={level:0,score:0,best:0,unlocked:0,completed:[],hints:[],wrongAttempts:[]};
+try{const saved=JSON.parse(localStorage.getItem('mindhunter-fa-v2')||'{}');state={...state,...saved,wrongAttempts:Array.isArray(saved.wrongAttempts)?saved.wrongAttempts:[]}}catch(e){}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem('mindhunter-fa-v2',JSON.stringify(state))}catch(e){}}
+function render(){
+ const p=puzzles[state.level];$('score').textContent=fa(state.score);$('best').textContent=fa(state.best);$('levelStat').textContent=fa(state.level+1)+' / '+fa(puzzles.length);$('levelLabel').textContent='مرحله '+fa(state.level+1)+' · سطح سخت';$('category').textContent=p.cat;$('title').textContent=p.title;$('desc').textContent=p.desc;$('progress').style.width=((state.level)/puzzles.length*100)+'%';
+ const pu=$('puzzle');pu.innerHTML='';
+ if(p.seq){const row=document.createElement('div');row.className='sequence';p.seq.forEach((x,i)=>{let el=document.createElement('div');el.className='tile'+(x==='؟'?' missing':'');el.textContent=x;row.appendChild(el)});pu.appendChild(row)}
+ if(p.visual){p.visual.forEach(line=>{const d=document.createElement('div');d.className='question';d.textContent=line;pu.appendChild(d)})}
+ const q=document.createElement('div');q.className='question';q.textContent=p.q;pu.appendChild(q);
+ $('options').innerHTML='';p.opts.forEach((opt,i)=>{const b=document.createElement('button');b.className='option';b.textContent=opt;b.onclick=()=>answer(i);b.dataset.index=i;$('options').appendChild(b)});
+ $('feedback').className='feedback';$('feedback').textContent='';$('next').disabled=true;$('next').textContent=state.level===puzzles.length-1?'دیدن نتیجه 🏆':'مرحله بعد ←';$('hint').disabled=state.hints.includes(state.level)||state.completed.includes(state.level);$('hint').textContent=state.hints.includes(state.level)?'راهنما استفاده شد':'راهنمایی · کاهش امتیاز';
+ if(state.wrongAttempts.includes(state.level)){const fb=$('feedback');fb.className='feedback show bad';fb.textContent='این مرحله قبلاً پاسخ اشتباه داشته؛ با پاسخ درست می‌توانی ادامه بدهی، اما امتیاز این مرحله را نمی‌گیری.';document.querySelectorAll('.option').forEach(b=>{if(b.dataset.wrong==='true'){b.disabled=true;b.classList.add('wrong')}})}
+ if(state.completed.includes(state.level)){showCompleted(p)}
+ renderLevels();
+}
+function showCompleted(p){const fb=$('feedback');fb.className='feedback show good';fb.textContent='قبلاً حل شده است. پاسخ: '+p.opts[p.ans]+' — '+p.ex;document.querySelectorAll('.option').forEach(b=>{b.disabled=true;if(+b.dataset.index===p.ans)b.classList.add('correct')});$('next').disabled=state.level>=state.unlocked}
+function answer(i){
+ if(state.completed.includes(state.level))return;
+ const p=puzzles[state.level],buttons=[...document.querySelectorAll('.option')],fb=$('feedback');
+ if(i===p.ans){
+  const firstTry=!state.wrongAttempts.includes(state.level);
+  const usedHint=state.hints.includes(state.level);
+  const earned=firstTry?p.pts:0;
+  state.score+=earned;state.completed.push(state.level);state.unlocked=Math.max(state.unlocked,Math.min(puzzles.length-1,state.level+1));
+  // Record only clean first-try completions; a recovery after a wrong answer cannot set a new record.
+  if(firstTry)state.best=Math.max(state.best,state.score);
+  fb.className='feedback show good';fb.textContent=(firstTry?'درست است! +'+fa(earned)+' امتیاز. ':'پاسخ درست است؛ چون قبلاً پاسخ اشتباه دادی، امتیازی برای این مرحله ثبت نمی‌شود. ')+p.ex;
+  buttons.forEach(b=>{b.disabled=true;if(+b.dataset.index===p.ans)b.classList.add('correct')});$('next').disabled=false;
+  if(state.level===puzzles.length-1)$('progress').style.width='100%';
+ }else{
+  if(!state.wrongAttempts.includes(state.level))state.wrongAttempts.push(state.level);
+  fb.className='feedback show bad';fb.textContent='پاسخ اشتباه است؛ دوباره تلاش کن. اگر پاسخ درست را پیدا کنی، می‌توانی ادامه بدهی اما امتیاز این مرحله را نمی‌گیری.';
+  buttons[i].disabled=true;buttons[i].dataset.wrong='true';buttons[i].classList.add('wrong');
+ }
+ save();$('score').textContent=fa(state.score);$('best').textContent=fa(state.best);$('hint').disabled=state.hints.includes(state.level)||state.completed.includes(state.level);renderLevels();
+}
+$('hint').onclick=()=>{if(state.hints.includes(state.level)||state.completed.includes(state.level))return;state.hints.push(state.level);state.score=Math.max(0,state.score-100);const p=puzzles[state.level];const fb=$('feedback');fb.className='feedback show';fb.style.background='#ffd16612';fb.style.border='1px solid #ffd16655';fb.style.color='#ffe7a3';fb.textContent='راهنما: '+p.hint;$('score').textContent=fa(state.score);$('hint').disabled=true;$('hint').textContent='راهنما استفاده شد';save()};
+$('next').onclick=()=>{if(state.level===puzzles.length-1&&state.completed.includes(state.level)){$('endText').textContent='امتیاز نهایی تو: '+fa(state.score)+' از ذهن‌کاو؛ هر '+fa(puzzles.length)+' معما را پشت سر گذاشتی!';$('endOverlay').classList.add('show');return}if(state.level<state.unlocked&&state.completed.includes(state.level)){state.level++;save();render();window.scrollTo({top:0,behavior:'smooth'})}};
+function renderLevels(){const g=$('levelGrid');g.innerHTML='';puzzles.forEach((p,i)=>{const b=document.createElement('button');b.className='levelbtn'+(state.completed.includes(i)?' done':'')+(state.level===i?' current':'');b.textContent=fa(i+1)+(state.completed.includes(i)?' ✓':'');b.disabled=i>state.unlocked;b.onclick=()=>{state.level=i;save();render();$('levelOverlay').classList.remove('show')};g.appendChild(b)})}
+$('startGame').onclick=()=>{$('landing').hidden=true;$('gameApp').hidden=false;$('levelOverlay').classList.add('show');renderLevels()};
+$('levelsOpen').onclick=()=>{$('levelOverlay').classList.add('show');renderLevels()};$('closeLevels').onclick=()=>$('levelOverlay').classList.remove('show');
+$('restart').onclick=()=>{state={level:0,score:0,best:state.best,unlocked:0,completed:[],hints:[],wrongAttempts:[]};save();$('endOverlay').classList.remove('show');render()};
+render();
+</script>
+</body>
+</html>
